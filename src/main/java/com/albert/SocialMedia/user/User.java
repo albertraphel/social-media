@@ -1,16 +1,36 @@
 package com.albert.SocialMedia.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     @Size(min = 2, message = "Minimum 2 characters are required")
     private String name;
     @Past
     private Date birthDay;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Post> post;
+
+    public List<Post> getPost() {
+        return post;
+    }
+
+    public void setPost(List<Post> post) {
+        this.post = post;
+    }
 
     protected User(){
 
